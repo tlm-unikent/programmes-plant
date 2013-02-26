@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Programmes-plant by unikent</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Programmes-plant</h1>
+          <h2>A comprehensive solution for the management of university programmes, that produces an XCRI feed.</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/unikent/programmes-plant/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/unikent/programmes-plant/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/unikent/programmes-plant" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>Programmes Plant</h1>
+
+<p>The Programmes Plant is part of the <a href="http://www.kent.ac.uk/is/projects/xcri/">XCRI-CAP project</a> at the University of Kent, and is a replacement for the existing Programmes Factory.</p>
+
+<p>It is written in <a href="http://laravel.com">Laravel</a> and using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a>.</p>
+
+<h2>Build Status</h2>
+
+<p><a href="https://travis-ci.org/unikent/programmes-plant"><img src="https://travis-ci.org/unikent/programmes-plant.png?branch=master" alt="Build Status - master"></a> <code>master</code> </p>
+
+<p><a href="https://travis-ci.org/unikent/programmes-plant"><img src="https://travis-ci.org/unikent/programmes-plant.png?branch=develop" alt="Build Status - develop"></a> <code>develop</code></p>
+
+<h2>Development Setup</h2>
+
+<p>The following are instructions on running the Programmes Plant on a local machine for development.</p>
+
+<ol>
+<li><p>Clone this repository. Obtain Laravel as a submodule by running <code>git submodule init</code> then <code>git submodule update</code>, unless you have done a recursive clone. Note that this app uses the <a href="https://github.com/unikent/laravel.git">University of Kent Laravel fork</a>, because this contains important performance enhancements as yet not pulled into the Laravel core. This fork is generally kept up to date with the Laravel master branch, so including it as a submodule should give you the latest version of Laravel.</p></li>
+<li>
+<p>You need to setup the application by editing all the sample files in <code>config/</code> and moving them to <code>config/local/</code> filling in as appropriate. To move the files in one command, run:</p>
+
+<div class="highlight"><pre>mkdir application/config/local <span class="o">&amp;&amp;</span> cp application/config/*.sample application/config/local <span class="o">&amp;&amp;</span> ls application/config/local/*.sample | <span class="k">while </span><span class="nb">read </span>file; <span class="k">do </span>mv <span class="nv">$file</span>  <span class="sb">`</span><span class="nb">echo</span> <span class="nv">$file</span> | sed s/.sample//<span class="sb">`</span>; <span class="k">done</span>
+</pre></div>
+</li>
+<li><p>You will need to create a MySQL database if you plan to use MySQL. Create this database and add the credentials to <code>application/config/local/database.php</code>. If you want to get this running using SQLite then change line 45 of <code>application/config/local/database.php</code> to be <code>sqlite</code> not <code>mysql</code>. Should just be good to go.</p></li>
+<li><p>The application requires an authentication driver to be used. The details of this can be setup in <code>application/config/local/auth.php</code>. We use our own LDAP driver. If you decide to use our bundled LDAP driver, the server settings can go in <code>application/config/local/ldap.php</code>.</p></li>
+<li><p>Run <code>php artisan migrate:install --env=local</code> to setup the migtations table. Then run <code>php artisan migrate --env=local</code> to run all the migrations to setup your database.</p></li>
+<li><p>Point a browser at the public folder.</p></li>
+<li><p>We're done here!</p></li>
+</ol><h2>Testing</h2>
+
+<p>Unit tests are written in PHPUnit. To run the tests run <code>php artisan test</code>. The tests use an in memory SQLite database to make them significantly faster.</p>
+
+<h2>Licensing</h2>
+
+<p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or any later version.</p>
+
+<p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>
+
+<p>You should have received a copy of the GNU General Public License along with this program. If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
+        </section>
+
+        <footer>
+          Programmes-plant is maintained by <a href="https://github.com/unikent">unikent</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
