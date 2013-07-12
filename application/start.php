@@ -13,6 +13,10 @@
 */
 
 error_reporting(E_ALL);
+
+// set sessions to 2 days
+ini_set('session.gc_maxlifetime',172800);
+
 //ini_set('display_errors',0);
 /*
 |--------------------------------------------------------------------------
