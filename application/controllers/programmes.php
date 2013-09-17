@@ -62,7 +62,6 @@ class Programmes_Controller extends Revisionable_Controller {
 			// Else empty list.
 			$programmes = array();
 		}
-
 		
 		$this->data[$this->views] = $programmes;
 
@@ -523,6 +522,22 @@ class Programmes_Controller extends Revisionable_Controller {
 		}
 	}
 
+	/**
+	 * Routing for GET /simpleview/$programme_id/simpleview/$revision_id
+	 *
+	 * @param int    $revisionable_item_id  The object ID we are reverting to a revision on.
+	 * @param int    $revision_id  The revision ID we are reverting to.
+	 *
+	 */
+	public function get_simpleview($year, $level, $programme_id, $revision_id)
+	{
+		$level = ( $level == 'pg') ? 'postgraduate' : 'undergraduate';
+		// Create simpleview and grab hash
+		$hash = API::create_preview($programme_id, $revision_id);
+		if($hash !== false){
+			return Redirect::to(Config::get('application.front_end_url').$level."/simpleview/".$hash);	
+		}
+	}
 
 
 	private function splitToText($list,$options)

@@ -117,8 +117,6 @@ class API {
 
 		$final = static::combine_programme($programme, $programme_settings, $globals, $level);
 
-	//	$final['deliveries'] = static::attach_pg_deliveries($iid, $year);
-
 		// Store data in to cache
 		Cache::put($cache_key, $final, 2628000);
 		return $final;
@@ -273,15 +271,15 @@ class API {
 
 		// Add deliveries if PG, Then use to grab modules
 		if($level == 'pg'){
-			// only get if has a programme_type and the type includes the string taught
-			if( isset($final['programme_type']) && (strpos($final['programme_type'], 'taught') !== false)){
 
+			// only get if has a programme_type
+			if( isset($final['programme_type']) ){
 				$final['deliveries'] = PG_Deliveries::get_programme_deliveries($final['instance_id'], $final['year']);
 				// get modules
 				$modules = array();
 				foreach($final['deliveries'] as &$delivery){
 					$delivery_awards = PG_Award::replace_ids_with_values($delivery['award'],false,true);
-					$delivery['award_name'] = $delivery_awards[0];
+					$delivery['award_name'] = isset($delivery_awards[0]) ? $delivery_awards[0] : '';
 					$modules[] = API::get_module_data($programme['instance_id'], $delivery['pos_code'], $programme['year'], $level);
 				}
 				if(sizeof($modules) != 0) $final['modules'] = $modules;
