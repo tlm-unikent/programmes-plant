@@ -105,20 +105,38 @@ class Revisionable_Controller extends Admin_Controller {
 	public function get_make_live($year, $type, $revisionable_item_id = false, $revision_id = false)
 	{
 		$this->check_user_can('make_programme_live');
-		
-		// Check to see we have what is required.
-		$data = $this->get_revision_data($revisionable_item_id, $revision_id);
 
-		// If something went wrong
-		if (!$data) return Redirect::to(URLParams::get_variable_path_prefix().$this->views);
+		// only allow republishing if the user hasn't tried to do so already
+		// if the user hits refresh and get_make_live() gets called again before make_revision_live() has finished the first time then make_revision_live() won't run a second time
+		if ( ! Session::get('published') )
+		{
+			Session::put('published', true);
 
-		// Get data & make revision live
-		list($item, $revision) = $data;
-		$modified_revision = $item->make_revision_live($revision);
+			// Check to see we have what is required.
+			$data = $this->get_revision_data($revisionable_item_id, $revision_id);
+
+			// If something went wrong
+			if (!$data) {
+				Session::put('published', false);
+				return Redirect::to(URLParams::get_variable_path_prefix().$this->views);
+			}
+
+			// Get data & make revision live
+			list($item, $revision) = $data;
+
+			// publish the revision
+			$modified_revision = $item->make_revision_live($revision);
+
+			// Redirect to point of origin with a message
+			Messages::add('success', "The selected revision has been made live.");
+
+			// reset to unpublished now that we've completed publishing
+			Session::put('published', false);
+
+			return Redirect::to(URLParams::get_variable_path_prefix().$this->views.'/edit/'.$item->id);
+		}
+
 		
-		// Redirect to point of origin
-		Messages::add('success', "The selected revision has been made live.");
-		return Redirect::to(URLParams::get_variable_path_prefix().$this->views.'/edit/'.$item->id);
 	}
 	
 	/**
